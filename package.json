@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "buffertools": "^2.1.3",
-    "nrf": "^0.8.3"
+    "nrf": "^0.8.3",
+    "superagent": "^1.4.0"
   }
 }

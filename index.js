@@ -1,5 +1,6 @@
 var NRF24 = require('nrf');
 var buffertools = require('buffertools');
+var request = require('superagent');
 
 var spiDev = '/dev/spidev0.0';
 var cePin = 24;
@@ -25,6 +26,17 @@ function generateRandomAddress() {
 function processSensorData(sensorData, remoteAddress) {
   var distance = (sensorData[0] << 8) | sensorData[1];
   console.log(distance);
+  console.log(remoteAddress);
+
+  request
+   .post('http://192.168.100.70/api/v1/dump')
+   .send({ distance: distance, remoteAddress: remoteAddress.toString('hex') })
+   .set('Content-Type', 'application/json')
+   .end(function(err, res) {
+     if (err) {
+       console.log('Oh no! Error submitting data.', err);
+     }
+   });
 }
 
 function replyJoinRequest(remoteAddress) {
